@@ -8,6 +8,8 @@ class GraphAPI:
         self.TenantID = TenantID
         self.scope = "https://graph.microsoft.com/.default"
         self.url = "https://graph.microsoft.com/"
+        self.timeout = 60
+        self.max_retries = 3
 
     def getAuthToken(self):
         payload = {
@@ -87,3 +89,49 @@ class GraphAPI:
 
         # Solo llegamos aquí si todo fueron 200 OK
         return all_data, final_status or 200
+
+    def runHuntingQuery(self, query, timespan=None, api_version="v1.0"):
+        url = f"{self.url.strip('/')}/{api_version.strip('/')}/security/runHuntingQuery"
+
+        headers = {
+            "Authorization": f"Bearer {self.token}",
+            "Content-Type": "application/json",
+        }
+
+        page_size = 1000
+        max_pages = 200
+        all_rows = []
+        skip = 0
+
+        for _ in range(max_pages):
+            body = {"Query": query}
+            if timespan:
+                body["Timespan"] = timespan
+            body["Top"] = page_size
+            body["Skip"] = skip
+
+            resp = requests.post(url, headers=headers, json=body, timeout=self.timeout)
+
+            if resp.status_code != 200:
+                try:
+                    return resp.json(), resp.status_code
+                except Exception:
+                    return {"error": resp.text}, resp.status_code
+
+            try:
+                data = resp.json()
+            except Exception:
+                return {"error": resp.text}, resp.status_code
+
+            rows = data.get("results", [])
+            if not isinstance(rows, list):
+                rows = [rows]
+
+            all_rows.extend(rows)
+
+            if len(rows) < page_size:
+                break
+
+            skip += page_size
+
+        return all_rows, 200

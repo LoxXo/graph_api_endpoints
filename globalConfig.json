@@ -213,12 +213,13 @@
     "meta": {
         "name": "graph_api_endpoints",
         "restRoot": "graph_api_endpoints",
-        "version": "0.0.9",
+        "version": "0.0.13",
         "displayName": "Microsoft Graph API generic Add-on",
-        "schemaVersion": "0.0.10",
+        "schemaVersion": "0.0.9",
         "supportedThemes": [
             "light",
             "dark"
-        ]
+        ],
+        "_uccVersion": "5.52.0"
     }
 }

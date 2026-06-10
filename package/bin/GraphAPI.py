@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 class GraphAPI:
     def __init__(self, ClientID, ClientSecret, TenantID):
         self.ClientID = ClientID
@@ -16,20 +17,25 @@ class GraphAPI:
             "client_id": self.ClientID,
             "client_secret": self.ClientSecret,
             "scope": self.scope,
-            "grant_type": "client_credentials"
+            "grant_type": "client_credentials",
         }
         url = f"https://login.microsoftonline.com/{self.TenantID}/oauth2/v2.0/token"
         try:
             response = requests.post(url, data=payload)
             data = response.json()
         except Exception as e:
-            print(e)
-        
+            raise Exception(f"Failed to make POST request: {e}")
+
+        if "access_token" not in data:
+            raise Exception(
+                f"Access_token is missing in the response: {data.text[:1000]}"
+            )
         self.token = data["access_token"]
 
     def getInfo(self, endpoint):
         headers = {
-            "Authorization": f"Bearer {self.token}"
+            "Authorization": f"Bearer {self.token}",
+            "Accept": "application/json",
         }
 
         base_url = f"{self.url.rstrip('/')}/{endpoint.lstrip('/')}"
@@ -37,25 +43,23 @@ class GraphAPI:
 
         all_data = []
         final_status = None
-        last_response = None
 
         while url:
             try:
-                response = requests.get(url, headers=headers)
+                response = requests.get(url, headers=headers, timeout=self.timeout)
                 final_status = response.status_code
-                last_response = response
 
                 if response.status_code == 200:
                     data = response.json()
 
-                    if 'value' in data:
-                        all_data.extend(data['value'])
+                    if "value" in data:
+                        all_data.extend(data["value"])
                     else:
                         # Caso de endpoint que devuelve un solo objeto (no colección)
                         all_data.append(data)
                         break
 
-                    url = data.get('@odata.nextLink')
+                    url = data.get("@odata.nextLink")
                     if not url:
                         break
 
@@ -67,25 +71,21 @@ class GraphAPI:
                         error_data = {
                             "error": "non_json_response",
                             "status_code": response.status_code,
-                            "raw_content": response.text[:1000]  # limitamos para no saturar
+                            "raw_content": response.text[
+                                :1000
+                            ],  # limitamos para no saturar
                         }
-                    
+
                     return error_data, response.status_code
 
             except requests.exceptions.RequestException as e:
-                print(f"Error de red/conexión: {e}")
-                if hasattr(e, 'response') and e.response is not None:
-                    print(f"Respuesta: {e.response.text[:500]}")
-                return {"error": "request_exception", "detail": str(e)}, 0
-
+                raise Exception(f"Network/connection error during API call: {e}")
             except ValueError as e:
-                print("Error: Respuesta no es JSON válido")
-                print(response.text[:500])
-                return {"error": "invalid_json", "raw_content": response.text[:1000]}, response.status_code
-
+                raise Exception(
+                    f"Failed to parse JSON response: {e} | Response content: {response.text[:1000]}"
+                )
             except Exception as e:
-                print(f"Error inesperado: {e}")
-                return {"error": "unexpected_error", "detail": str(e)}, 0
+                raise Exception(f"Unexpected error during API call: {e}")
 
         # Solo llegamos aquí si todo fueron 200 OK
         return all_data, final_status or 200

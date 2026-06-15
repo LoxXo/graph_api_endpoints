@@ -1,0 +1,4 @@
+<?xml version="1.0" ?>
+<view template="graph_api_endpoints:/templates/base.html" type="html" isDashboard="False">
+    <label>Configuration</label>
+</view>

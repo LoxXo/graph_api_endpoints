@@ -1,29 +1,28 @@
 {
-    "schemaVersion": "2.0.0",
+    "dependencies": null,
+    "incompatibleApps": null,
     "info": {
-        "title": "Splunk Add-on for Graph API Endpoints",
-        "id": {
-            "group": null,
-            "name": "graph_api_endpoints",
-            "version": "0.0.1"
-        },
         "author": [
             {
-                "name": "",
+                "company": null,
                 "email": null,
-                "company": null
+                "name": ""
             }
         ],
-        "releaseDate": null,
-        "description": "Splunk Add-on for Graph API Endpoints",
         "classification": {
-            "intendedAudience": "IT Professionals",
             "categories": [
                 "Security, Fraud & Compliance"
             ],
-            "developmentStatus": "Production/Stable"
+            "developmentStatus": "Production/Stable",
+            "intendedAudience": "IT Professionals"
         },
         "commonInformationModels": null,
+        "description": "Splunk Add-on for Graph API Endpoints",
+        "id": {
+            "group": null,
+            "name": "graph_api_endpoints",
+            "version": "0.0.13"
+        },
         "license": {
             "name": "LICENSE.txt",
             "text": "./LICENSES/LICENSE.txt",
@@ -34,17 +33,17 @@
             "text": null,
             "uri": null
         },
+        "releaseDate": null,
         "releaseNotes": {
             "name": "README",
             "text": "README.txt",
             "uri": ""
-        }
+        },
+        "title": "Splunk Add-on for Graph API Endpoints"
     },
-    "dependencies": null,
-    "tasks": null,
     "inputGroups": null,
-    "incompatibleApps": null,
     "platformRequirements": null,
+    "schemaVersion": "2.0.0",
     "supportedDeployments": [
         "_standalone",
         "_distributed",
@@ -53,5 +52,6 @@
     "targetWorkloads": [
         "_search_heads",
         "_indexers"
-    ]
+    ],
+    "tasks": null
 }

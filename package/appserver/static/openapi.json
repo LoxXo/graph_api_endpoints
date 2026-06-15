@@ -1,0 +1,728 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "graph_api_endpoints",
+        "version": "0.0.14",
+        "description": "Microsoft Graph API generic Add-on",
+        "contact": {
+            "name": ""
+        },
+        "license": {
+            "name": "LICENSE.txt"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://{domain}:{port}/servicesNS/-/graph_api_endpoints",
+            "variables": {
+                "domain": {
+                    "default": "localhost"
+                },
+                "port": {
+                    "default": "8089"
+                }
+            },
+            "description": "Access via management interface"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "account": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "client_id": {
+                        "type": "string"
+                    },
+                    "client_secret": {
+                        "type": "string",
+                        "format": "password"
+                    }
+                }
+            },
+            "account_without_name": {
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string"
+                    },
+                    "client_secret": {
+                        "type": "string",
+                        "format": "password"
+                    }
+                }
+            },
+            "logging": {
+                "type": "object",
+                "properties": {
+                    "loglevel": {
+                        "type": "string",
+                        "enum": [
+                            "DEBUG",
+                            "INFO",
+                            "WARNING",
+                            "ERROR",
+                            "CRITICAL"
+                        ]
+                    }
+                }
+            },
+            "logging_without_name": {
+                "type": "object",
+                "properties": {
+                    "loglevel": {
+                        "type": "string",
+                        "enum": [
+                            "DEBUG",
+                            "INFO",
+                            "WARNING",
+                            "ERROR",
+                            "CRITICAL"
+                        ]
+                    }
+                }
+            },
+            "graph_api_endpoints": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "interval": {
+                        "type": "string"
+                    },
+                    "index": {
+                        "type": "string"
+                    },
+                    "sourcetype": {
+                        "type": "string"
+                    },
+                    "account": {
+                        "type": "string"
+                    },
+                    "tenant_id": {
+                        "type": "string"
+                    },
+                    "endpoint": {
+                        "type": "string"
+                    },
+                    "disabled": {
+                        "type": "string",
+                        "enum": [
+                            "False",
+                            "True"
+                        ]
+                    }
+                }
+            },
+            "graph_api_endpoints_without_name": {
+                "type": "object",
+                "properties": {
+                    "interval": {
+                        "type": "string"
+                    },
+                    "index": {
+                        "type": "string"
+                    },
+                    "sourcetype": {
+                        "type": "string"
+                    },
+                    "account": {
+                        "type": "string"
+                    },
+                    "tenant_id": {
+                        "type": "string"
+                    },
+                    "endpoint": {
+                        "type": "string"
+                    },
+                    "disabled": {
+                        "type": "string",
+                        "enum": [
+                            "False",
+                            "True"
+                        ]
+                    }
+                }
+            },
+            "graph_api_endpoints_without_disabled": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "interval": {
+                        "type": "string"
+                    },
+                    "index": {
+                        "type": "string"
+                    },
+                    "sourcetype": {
+                        "type": "string"
+                    },
+                    "account": {
+                        "type": "string"
+                    },
+                    "tenant_id": {
+                        "type": "string"
+                    },
+                    "endpoint": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "BasicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        }
+    },
+    "paths": {
+        "/graph_api_endpoints_account": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Get list of items for account",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/account_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Get list of items for account",
+                "deprecated": false
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Create item in account",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/account_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Create item in account",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/account"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "deprecated": false
+            },
+            "parameters": [
+                {
+                    "name": "output_mode",
+                    "in": "query",
+                    "required": true,
+                    "description": "Output mode",
+                    "schema": {
+                        "type": "string",
+                        "enum": [
+                            "json"
+                        ],
+                        "default": "json"
+                    }
+                }
+            ]
+        },
+        "/graph_api_endpoints_account/{name}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Get account item details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/account_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Get account item details",
+                "deprecated": false
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Update account item",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/account_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Update account item",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/account_without_name"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Delete account item",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/account_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Delete account item",
+                "deprecated": false
+            },
+            "parameters": [
+                {
+                    "name": "name",
+                    "in": "path",
+                    "required": true,
+                    "description": "The name of the item to operate on",
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "output_mode",
+                    "in": "query",
+                    "required": true,
+                    "description": "Output mode",
+                    "schema": {
+                        "type": "string",
+                        "enum": [
+                            "json"
+                        ],
+                        "default": "json"
+                    }
+                }
+            ]
+        },
+        "/graph_api_endpoints_settings/logging": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Get list of items for logging",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/logging_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Get list of items for logging",
+                "deprecated": false
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Create item in logging",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/logging_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Create item in logging",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/logging"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "deprecated": false
+            },
+            "parameters": [
+                {
+                    "name": "output_mode",
+                    "in": "query",
+                    "required": true,
+                    "description": "Output mode",
+                    "schema": {
+                        "type": "string",
+                        "enum": [
+                            "json"
+                        ],
+                        "default": "json"
+                    }
+                }
+            ]
+        },
+        "/graph_api_endpoints_graph_api_endpoints": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Get list of items for graph_api_endpoints",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/graph_api_endpoints_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Get list of items for graph_api_endpoints",
+                "deprecated": false
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Create item in graph_api_endpoints",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/graph_api_endpoints_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Create item in graph_api_endpoints",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/graph_api_endpoints_without_disabled"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "deprecated": false
+            },
+            "parameters": [
+                {
+                    "name": "output_mode",
+                    "in": "query",
+                    "required": true,
+                    "description": "Output mode",
+                    "schema": {
+                        "type": "string",
+                        "enum": [
+                            "json"
+                        ],
+                        "default": "json"
+                    }
+                }
+            ]
+        },
+        "/graph_api_endpoints_graph_api_endpoints/{name}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Get graph_api_endpoints item details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/graph_api_endpoints_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Get graph_api_endpoints item details",
+                "deprecated": false
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Update graph_api_endpoints item",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/graph_api_endpoints_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Update graph_api_endpoints item",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/graph_api_endpoints_without_name"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Delete graph_api_endpoints item",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entry": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "$ref": "#/components/schemas/graph_api_endpoints_without_name"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Delete graph_api_endpoints item",
+                "deprecated": false
+            },
+            "parameters": [
+                {
+                    "name": "name",
+                    "in": "path",
+                    "required": true,
+                    "description": "The name of the item to operate on",
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "output_mode",
+                    "in": "query",
+                    "required": true,
+                    "description": "Output mode",
+                    "schema": {
+                        "type": "string",
+                        "enum": [
+                            "json"
+                        ],
+                        "default": "json"
+                    }
+                }
+            ]
+        }
+    },
+    "security": [
+        {
+            "BasicAuth": []
+        }
+    ]
+}
